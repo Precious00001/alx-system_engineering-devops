@@ -1,1 +1,4 @@
-# alx-system_engineering-devops
+#!/bin/bash
+
+echo "Current working directory: $(pwd)"
+
