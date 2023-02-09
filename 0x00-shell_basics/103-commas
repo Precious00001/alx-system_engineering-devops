@@ -1,0 +1,2 @@
+#!/bin/bash
+ls -A --ignore=*~ --group-directories-first | awk 'NF{print $0 ","} END{print ""}' | sort -df -t/ -k1,1 | sed 's/,$/\n/'
