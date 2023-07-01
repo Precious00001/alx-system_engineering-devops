@@ -2,7 +2,7 @@
 # Displays "To infinity and beyond" without a fixed end or duration, accompanied by.
 # + a sleep 2 in between each iteration.
 
-while true
+while :
 do
   echo "To infinity and beyond"
   sleep 2
