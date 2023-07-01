@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-# outputs To infinity and beyond indefinitely.
+# print processes pid whose name contain the word bash along the name
+# displays the PID, along with the process name, of
+# processes whose name contain the word bash
 
-while true
-do
- echo "To infinity and beyond"
- sleep 2
-done
+pgrep -l bash
