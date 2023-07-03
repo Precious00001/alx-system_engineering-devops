@@ -15,5 +15,5 @@ do
 	else
 		echo "Best School"
 	fi
-  x=$((p + 1))
+  p=$((p + 1))
 done
