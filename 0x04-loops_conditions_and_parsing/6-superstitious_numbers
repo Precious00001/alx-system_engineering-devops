@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# counting from 1 to 20 with luck
+p=1
+while [ $p -le 20 ]
+do
+	echo $p
+	case $p in
+	     4) echo "bad luck from China"
+	     	;;
+	     9) echo "bad luck from Japan"
+	        ;;
+	     17) echo "bad luck from Italy"
+	        ;;
+        esac
+	p=$((p+1))
+done
