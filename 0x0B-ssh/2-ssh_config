@@ -1,0 +1,11 @@
+# ssh config file
+Host *
+      PasswordAuthentication no
+      IdentifyFile ~/.ssh/school
+#   BatchMode no
+#   CheckHostIP yes
+#   AddressFamily any
+#   ConnectTimeout 0
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
