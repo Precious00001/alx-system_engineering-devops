@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#Installs and configures HAproxy in a load balancer server
+
+sudo apt-get install -y haproxy
+
+# enable haproxy to be started by init script
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+# edit config file
+cat <<EOT | sudo tee -a /etc/haproxy/haproxy.cfg
+frontend Randommall.tech
+    timeout client  30000
+    bind 0:80
+    default_backend Randommall.tech_backend
+
+backend Randommall.tech_backend
+    timeout connect  3000
+    timeout server  30000
+    balance roundrobin
+    server 228560-web-01 54.160.119.87:80 check
+    server 228560-web-02 100.26.53.47:80 check
+EOT
+
+# Testing the HAproxy configuration file
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
+# Restart the haproxy service
+sudo service haproxy restart
+
