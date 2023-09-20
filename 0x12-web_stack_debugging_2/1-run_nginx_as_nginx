@@ -1,21 +1,7 @@
-#!/bin/env bash
-
-# Install Nginx (if not already installed)
-sudo apt-get update
-sudo apt-get install -y nginx
-
-# Stop Nginx if it's running
-sudo systemctl stop nginx
-
-# Configure Nginx to run as the nginx user
-sudo sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
-
-# Change the default port to 8080
-sudo sed -i 's/listen 80;/listen 8080;/g' /etc/nginx/sites-available/default
-
-# Restart Nginx to apply the changes
-sudo systemctl start nginx
-
-# Display the Nginx status to verify the configuration
-sudo systemctl status nginx
-
+#!/usr/bin/env bash
+# Fixes a web server to run Nginx as the nginx user listening on port 8080.
+sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+chmod 644 /etc/nginx/nginx.conf
+pkill apache2
+sudo -u nginx service nginx start
