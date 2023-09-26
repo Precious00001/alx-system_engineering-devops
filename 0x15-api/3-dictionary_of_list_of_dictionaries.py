@@ -30,9 +30,9 @@ if __name__ == "__main__":
     todoAll = {}
 
 # Loop through each user
-    for user in users_list:
+    for user in users:
         taskList = []
-        for task in todo_list:
+        for task in todos:
             if task.get('userId') == user.get('id'):
                 taskDict = {"username": user.get('username'),
                             "task": task.get('title'),
