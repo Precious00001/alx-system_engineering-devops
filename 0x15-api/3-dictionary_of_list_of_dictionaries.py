@@ -10,7 +10,8 @@ if __name__ == '__main__':
     # Make an HTTP GET request to fetch all to-do list items
     users = requests.get('https://jsonplaceholder.typicode.com/todos').json()
     # Make an HTTP GET request to fetch user information
-    users_id = requests.get('https://jsonplaceholder.typicode.com/users/').json()
+    users_id = requests.get
+		('https://jsonplaceholder.typicode.com/users/').json()
     # Open the output file for writing
     with open(employees, "w") as f:
         d = {j.get("id"): [{'task': i.get('title'),
