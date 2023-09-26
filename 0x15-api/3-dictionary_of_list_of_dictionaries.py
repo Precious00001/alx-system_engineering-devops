@@ -16,13 +16,13 @@ if __name__ == "__main__":
 
     # Make an HTTP GET request to fetch a list of users
     users_list = requests.get("https://jsonplaceholder.typicode.com/users")
-    
+
     # Convert the JSON response to a Python list of user objects
     users = users_list.json()
 
     # Make an HTTP GET request to fetch a list of TODOs
     todo_list = requests.get('https://jsonplaceholder.typicode.com/todos')
-    
+
     # Convert the JSON response to a Python list of TODO objects
     todos = todo_list.json()
 
@@ -30,9 +30,9 @@ if __name__ == "__main__":
     todoAll = {}
 
 # Loop through each user
-    for user in users:
+    for user in users_list:
         taskList = []
-        for task in todos:
+        for task in todo_list:
             if task.get('userId') == user.get('id'):
                 taskDict = {"username": user.get('username'),
                             "task": task.get('title'),
