@@ -6,7 +6,8 @@ import sys
 
 # Check if the script is being run as the main program
 if __name__ == "__main__":
-# Get the employee ID from the command line arguments
+
+    # Get the employee ID from the command line arguments
     id_c = sys.argv[1]
 
 # Define the base URL for the JSONPlaceholder API
