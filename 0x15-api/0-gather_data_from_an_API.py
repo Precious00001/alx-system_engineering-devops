@@ -15,11 +15,11 @@ if __name__ == "__main__":
     sessionRequests = requests.Session()
 
     id_c = argv[1]
-    base_todos = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(id_c)
+    base_t = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(id_c)
     base_user = 'https://jsonplaceholder.typicode.com/users/{}'.format(id_c)
 
     # Make a GET request to fetch the employee's information
-    employee = sessionRequests.get(base_todos)
+    employee = sessionRequests.get(base_t)
     employeeName = sessionRequests.get(base_user)
 
     # Make a GET request to fetch the user's TODO list
