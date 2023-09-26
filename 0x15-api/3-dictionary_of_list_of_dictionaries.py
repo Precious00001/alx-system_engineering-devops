@@ -10,13 +10,12 @@ if __name__ == '__main__':
     # Make an HTTP GET request to fetch all to-do list items
     users = requests.get('https://jsonplaceholder.typicode.com/todos').json()
     # Make an HTTP GET request to fetch user information
-    users_id = requests.get
-		('https://jsonplaceholder.typicode.com/users/').json()
+    use_id = requests.get('https://jsonplaceholder.typicode.com/users/').json()
     # Open the output file for writing
     with open(employees, "w") as f:
         d = {j.get("id"): [{'task': i.get('title'),
              'completed': i.get('completed'),
                             'username': j.get('username')} for i in users
                            if j.get("id") == i.get('userId')]
-             for j in users_id}
+             for j in use_id}
         json.dump(d, f)
