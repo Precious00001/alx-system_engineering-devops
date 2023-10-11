@@ -1,71 +1,89 @@
 #!/usr/bin/python3
-"""Function to count words."""
+"""
+Function that queries the Reddit API and prints
+the top ten hot posts of a subreddit
+"""
+import re
 import requests
 
 
-def count_words(subreddit, word_list, instances={}, after="", count=0):
+def add_title(dictionary, popular_post):
     """
-    function count_words : Get ALL hot posts
+    Adds item into a list
+
+    Args:
+        dictionary: Dictionary to store word counts
+        popular_post: List of hot posts from Reddit
     """
-    # Define the Reddit API URL for the specified subreddit
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
-
-    # Define the User-Agent header for the API request
-    headers = {
-        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
-    }
-
-    # Define parameters for the API request
-    params = {
-        "after": after,
-        "count": count,
-        "limit": 100
-    }
-
-    # Send an API request to Reddit
-    response = requests.get(url, headers=headers, params=params,
-                            allow_redirects=False)
-
-    try:
-        # Try to parse the API response as JSON
-        results = response.json()
-
-        # Check if the response indicates a 404 error
-        if response.status_code == 404:
-            raise Exception
-    except Exception:
-        # Handle exceptions (e.g., invalid subreddit or request error)
-        print("")
+    if len(popular_post) == 0:
         return
 
-    # Extract data from the API response
-    results = results.get("data")
-    after = results.get("after")
-    count += results.get("dist")
+    title = popular_post[0]['data']['title'].split()
+    for word in title:
+        for key in dictionary.keys():
+            c = re.compile("^{}$".format(key), re.I)
+            if c.findall(word):
+                dictionary[key] += 1
+    popular_post.pop(0)
+    add_title(dictionary, popular_post)
 
-    # Iterate through the posts in the response
-    for c in results.get("children"):
-        title = c.get("data").get("title").lower().split()
 
-        # Iterate through the words in the word list
-        for word in word_list:
-            if word.lower() in title:
-                times = len([t for t in title if t == word.lower()])
+def recurse(subreddit, dictionary, after=None):
+    """
+    Queries the Reddit API
 
-                # Update the word count in the 'instances' dictionary
-                if instances.get(word) is None:
-                    instances[word] = times
-                else:
-                    instances[word] += times
+    Args:
+        subreddit: Subreddit to query
+        dictionary: Dictionary to store word counts
+        after: Identifier for the next page of posts
+    """
+    u_agent = 'Mozilla/5.0'
+    headers = {
+        'User-Agent': u_agent
+    }
 
-    # Check if there are more pages of results
-    if after is None:
-        # If no more pages, sort and print word counts
-        if len(instances) == 0:
-            print("")
-            return
-        instances = sorted(instances.items(), key=lambda kv: (-kv[1], kv[0]))
-        [print("{}: {}".format(k, v)) for k, v in instances]
-    else:
-        # If more pages, recursively call the function for the next page
-        count_words(subreddit, word_list, instances, after, count)
+    params = {
+        'after': after
+    }
+
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    res = requests.get(url,
+                       headers=headers,
+                       params=params,
+                       allow_redirects=False)
+
+    if res.status_code != 200:
+        return None
+
+    dic = res.json()
+    popular_post = dic['data']['children']
+    add_title(dictionary, popular_post)
+    after = dic['data']['after']
+    if not after:
+        return
+    recurse(subreddit, dictionary, after=after)
+
+
+def count_words(subreddit, word_list, dictionary=None):
+    """
+    Init function to count words in subreddit posts
+
+    Args:
+        subreddit: Subreddit to query
+        word_list: List of words to count
+        dictionary: Dictionary to store word counts
+    """
+    if dictionary is None:
+        dictionary = {}
+
+    for word in word_list:
+        word = word.lower()
+        if word not in dictionary:
+            dictionary[word] = 0
+
+    recurse(subreddit, dictionary)
+
+    sorted_items = sorted(dictionary.items(), key=lambda kv: (-kv[1], kv[0]))
+    for item in sorted_items:
+        if item[1] > 0:
+            print("{}: {}".format(item[0], item[1]))
