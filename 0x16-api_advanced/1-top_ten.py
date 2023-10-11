@@ -15,7 +15,7 @@ def top_ten(subreddit):
     params = {
         "limit": 10
     }
-    # Send a GET request to the Reddit API with the specified headers and parameters
+    # Send a GET req to the Reddit API with the spec headers and parameters
     # Disallow redirects for invalid subreddits (404 responses)
     response = requests.get(url, headers=users, params=params,
                             allow_redirects=False)

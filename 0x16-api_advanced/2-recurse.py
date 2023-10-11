@@ -12,7 +12,7 @@ def recurse(subreddit, hot_list=[], after=None):
     ''' function recurse :Get ALL hot posts'''
     # Define custom headers for the request
     headers = {'User-agent': 'Unix:0-subs:v1'}
-    # Define parameters for the request, including the 'limit' for the number of posts
+    # Define parameters for the req, including the 'limit' for the no of posts
     params = {'limit': 100}
     if isinstance(after, str):
         if after != "STOP":
