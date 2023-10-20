@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Gunicorn application server running AirBnB_clone_v4
+
+pgrep gunicorn | xargs kill -HUP
+~                                  
